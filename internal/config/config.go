@@ -14,9 +14,13 @@ import (
 	"time"
 )
 
+// DefaultPort is this service's port when PORT is unset. Each service has its
+// own, so they can all run side by side on one machine.
+const DefaultPort = 8080
+
 // Config holds every setting the service reads at startup.
 type Config struct {
-	// Port is the HTTP port for the API, health checks and metrics. PORT, default 8080.
+	// Port is the HTTP port for the API, health checks and metrics. PORT, default DefaultPort.
 	Port int
 	// LogLevel is the minimum level written to the log. LOG_LEVEL, default info.
 	LogLevel slog.Level
@@ -36,7 +40,7 @@ func Load() (Config, error) {
 func FromLookup(lookup func(string) (string, bool)) (Config, error) {
 	r := reader{lookup: lookup}
 	cfg := Config{
-		Port:            read(&r, "PORT", 8080, parsePort),
+		Port:            read(&r, "PORT", DefaultPort, parsePort),
 		LogLevel:        read(&r, "LOG_LEVEL", slog.LevelInfo, parseLevel),
 		ShutdownTimeout: read(&r, "SHUTDOWN_TIMEOUT", 10*time.Second, parsePositiveDuration),
 	}

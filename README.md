@@ -30,11 +30,11 @@ To add a setting, add a field to `Config` in [internal/config/config.go](interna
 
 ## Logs
 
-The service writes JSON lines to stdout, so they show up whatever you run it:
+The service writes JSON lines to stdout, so they show up wherever you run it:
 
 ```sh
 cd catalog-service
-LOG_LEVEL=debug go run cmd/api
+LOG_LEVEL=debug go run ./cmd/api
 ```
 
 Raw JSON is hard to read, so pipe it through `jq` to get pretty, colored output:
@@ -43,7 +43,7 @@ Raw JSON is hard to read, so pipe it through `jq` to get pretty, colored output:
 LOG_LEVEL=debug go run ./cmd/api | jq
 ```
 
-to see only errors:
+To see only errors:
 
 ```sh
 go run ./cmd/api | jq 'select(.level == "ERROR")'

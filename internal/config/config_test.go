@@ -19,7 +19,7 @@ func TestDefaultsWhenNothingIsSet(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	want := Config{Port: 8080, LogLevel: slog.LevelInfo, ShutdownTimeout: 10 * time.Second}
+	want := Config{Port: DefaultPort, LogLevel: slog.LevelInfo, ShutdownTimeout: 10 * time.Second}
 	if cfg != want {
 		t.Errorf("config = %+v, want %+v", cfg, want)
 	}
@@ -42,8 +42,8 @@ func TestReadsValuesFromEnvironment(t *testing.T) {
 
 func TestEmptyValueMeansDefault(t *testing.T) {
 	cfg, err := FromLookup(env(map[string]string{"PORT": ""}))
-	if err != nil || cfg.Port != 8080 {
-		t.Errorf("port = %d, err = %v; want 8080 and no error", cfg.Port, err)
+	if err != nil || cfg.Port != DefaultPort {
+		t.Errorf("port = %d, err = %v; want %d and no error", cfg.Port, err, DefaultPort)
 	}
 }
 
