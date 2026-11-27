@@ -8,7 +8,24 @@
 go run ./cmd/api
 ```
 
-The server listens on port `8080` and logs JSON to stdout. Stop it with Ctrl+C: it finishes in-flight requests before exiting.
+The server listens on port `8080` and logs JSON to stdout. Stop it with Ctrl+C: it finishes in-flight requests before exiting. A second Ctrl+C stops it immediately.
+
+## Docker
+
+```sh
+docker build -t catalog-service .
+docker run --rm -p 8080:8080 catalog-service
+```
+
+The image is built for your machine's architecture. The cluster runs on
+`linux/amd64`, so build for that when the image is going there:
+
+```sh
+docker build --platform linux/amd64 -t catalog-service .
+```
+
+The final image is based on distroless and contains only the binary. It has
+no shell, so use `kubectl logs` or `docker logs` instead of exec-ing into it.
 
 ## Configuration
 

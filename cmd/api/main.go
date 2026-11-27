@@ -28,6 +28,10 @@ func main() {
 
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
+	// After the first signal, restore default signal handling, so a second
+	// Ctrl+C or SIGTERM stops the process immediately instead of waiting for
+	// the graceful shutdown.
+	context.AfterFunc(ctx, stop)
 
 	if err := run(ctx, cfg, logger); err != nil {
 		logger.Error("service stopped with an error", slog.Any("error", err))
