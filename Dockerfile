@@ -21,7 +21,7 @@ ARG TARGETARCH
 RUN --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/root/.cache/go-build \
     CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH \
-    go build -trimpath -ldflags="-s -w" -o /out/catalog-service ./cmd/server
+    go build -trimpath -ldflags="-s -w" -o /out/catalog-service ./cmd/api
 
 # Runtime stage: no shell or package manager, only the binary,
 # CA certificates and timezone data. Runs as an unprivileged user.
